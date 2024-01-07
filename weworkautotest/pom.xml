@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>weworkautotest</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+
+    <properties>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.version>3.11.0</maven.compiler.version>
+        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
+        <!-- log日志 -->
+        <slf4j.version>2.0.7</slf4j.version>
+        <logback.version>1.4.6</logback.version>
+        <!-- JUnit5 -->
+        <junit.jupiter.version>5.9.2</junit.jupiter.version>
+        <!-- allure报告 -->
+        <allure.version>2.21.0</allure.version>
+        <aspectj.version>1.9.19</aspectj.version>
+        <allure.maven.version>2.12.0</allure.maven.version>
+        <allure.cmd.download.url>
+            https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline
+        </allure.cmd.download.url>
+        <!-- hamcrest断言 -->
+        <hamcrest.version>2.2</hamcrest.version>
+        <!-- yaml对应解析 -->
+        <jackson.version>2.14.2</jackson.version>
+        <!-- jackson -->
+        <jackson.version>2.13.1</jackson.version>
+
+        <!-- faker -->
+        <javafaker.version>1.0.2</javafaker.version>
+        <!-- selenium -->
+        <selenium.version>4.13.0</selenium.version>
+        <!-- appium -->
+        <appium.version>8.6.0</appium.version>
+        <commonio.version>2.11.0</commonio.version>
+    </properties>
+    <!--    物料清单 (BOM)-->
+    <dependencyManagement>
+        <dependencies>
+            <!--当使用 Gradle 或 Maven 引用多个 JUnit 工件时，此物料清单 POM 可用于简化依赖项管理。不再需要在添加依赖时设置版本-->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.jupiter.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <dependencies>
+        <!-- junit 相关依赖下载-->
+        <!-- junit5 -->
+        <dependency>
+            <!-- 组织的名称；仓库中唯一标识一个项目，确保项目的唯一性 -->
+            <groupId>org.junit.jupiter</groupId>
+            <!-- 项目的名称或模块的名称  -->
+            <artifactId>junit-jupiter</artifactId>
+            <!-- 依赖的作用范围
+                  compile：默认的作用范围，表示在编译阶段和运行时都是可见的
+                  test：表示依赖只在测试阶段 src/test下可见。
+                  provided：表示依赖在编译阶段和测试阶段是可见的。
+                  runtime：表示依赖在编译阶段不可见，但在运行时可见。-->
+            <scope>test</scope>
+        </dependency>
+        <!-- junit5-suite -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- 用做兼容老版本 -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- hamcrest断言 -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- allure报告-->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- log日志 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <!-- appium -->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>${appium.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- selenium-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <!-- maven 命令行执行插件-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                    <includes>
+                        <include>**/*Test</include>
+                        <include>**/Test*</include>
+                    </includes>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit.jupiter.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.vintage</groupId>
+                        <artifactId>junit-vintage-engine</artifactId>
+                        <version>${junit.jupiter.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!--maven 编译使用插件-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <parameters>true</parameters>
+                    <!-- 设置jre版本为 11 -->
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <!-- 设置编码为 UTF-8 -->
+                    <encoding>${maven.compiler.encoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!--            <plugin>-->
+            <!--                <groupId>io.qameta.allure</groupId>-->
+            <!--                <artifactId>allure-maven</artifactId>-->
+            <!--                <version>${allure.maven.version}</version>-->
+            <!--                <configuration>-->
+            <!--                    <reportVersion>${allure.version}</reportVersion>-->
+            <!--                    <allureDownloadUrl>${allure.cmd.download.url}/${allure.version}/allure-commandline-${allure.version}.zip</allureDownloadUrl>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
+        </plugins>
+    </build>
+
+</project>

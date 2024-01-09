@@ -9,6 +9,7 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
@@ -26,18 +27,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestMember {
 
-    private static  AndroidDriver driver;
+    //AppiumServer版本2.3.0
+    //前置条件登录成功
+    private static  AndroidDriver driver;//声明一个AndroidDriver
 
-    public static WebDriverWait wait;
+    public static WebDriverWait wait;//声明一个显示等待的wait
 
     @BeforeAll
     public static void setUp() {
         UiAutomator2Options options = new UiAutomator2Options()
+                //设置自动化的平台是Android
                 .setPlatformName("Android")
+                //声明自动化工具名称
+                .setAutomationName("uiautomator2")
+                //声明设备ID
                 .setDeviceName("VAUBB23907002613")
+                //配置APP的包名
                 .setAppPackage("com.tencent.wework")
+                //配置APP启动的Activity
                 .setAppActivity(".launch.LaunchSplashActivity")
+                //不重置APP的信息，解决登录的问题
                 .setNoReset(true)
+                //强制
                 .amend("appium:forceAppLaunch", true)
                 .amend("appium:shouldTerminateApp", true);
 
@@ -46,7 +57,7 @@ public class TestMember {
                     new URL("http://127.0.0.1:4723/wd/hub"), options
             );
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-            wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            wait = new WebDriverWait(driver, Duration.ofSeconds(30),Duration.ofSeconds(3));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -62,22 +73,23 @@ public class TestMember {
         // 显式等待:  WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         // 显示等待： 传入一个函数进去。循环执行，如果报错，则做异常捕获，直到抛出超时为止。
         // 条件检查函数
-//        ExpectedCondition<WebElement> condition = input -> {
-//            driver.navigate().back();
-//            return driver.findElement(AppiumBy.xpath("//*[@text='通讯录']"));
-//        };
-//        wait.until(condition);
+        ExpectedCondition<WebElement> condition = input -> {
+            driver.navigate().back();
+            return driver.findElement(AppiumBy.xpath("//*[@text='通讯录']"));
+        };
+        wait.until(condition);
 
-        while(true) {
-            try {
-                WebElement element = driver.findElement(AppiumBy.xpath("//*[@text='通讯录']"));
-                if( element != null){
-                    break;
-                }
-            }catch (Exception e){
-                driver.navigate().back();
-            }
-        }
+//        while(true) {
+//            try {
+//                WebElement element = driver.findElement(AppiumBy.xpath("//*[@text='通讯录']"));
+//                if( element != null){
+//                    break;
+//                }
+//            }catch (Exception e){
+//                driver.navigate().back();
+//            }
+//        }
+
     }
 
 
@@ -85,13 +97,19 @@ public class TestMember {
     @DisplayName("添加新成员")
     public void addMemberTest() {
         driver.findElement(AppiumBy.xpath("//*[@text='通讯录']")).click();
-        for (int i = 0; i < 10; i++) {
-            try {
-                driver.findElement(AppiumBy.xpath("//*[@text='添加成员']")).click();
-            } catch (Exception e) {
-                scrollDown();
-            }
-        }
+//        for (int i = 0; i < 10; i++) {
+//            try {
+//                driver.findElement(AppiumBy.xpath("//*[@text='添加成员']")).click();
+//            } catch (Exception e) {
+//                scrollDown();
+//            }
+//        }
+        ExpectedCondition<String> add = input -> {
+            scrollDown();
+            driver.findElement(AppiumBy.xpath("//*[@text='添加成员']")).click();
+            return "success";
+        };
+        wait.until(add);
 
         driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text='手动输入添加']")).click();
 
@@ -112,13 +130,12 @@ public class TestMember {
     @DisplayName("添加新成员失败")
     public void addMemberFailTest() throws FileNotFoundException {
         driver.findElement(AppiumBy.xpath("//*[@text='通讯录']")).click();
-        for (int i = 0; i < 10; i++) {
-            try {
-                driver.findElement(AppiumBy.xpath("//*[@text='添加成员']")).click();
-            } catch (Exception e) {
-                scrollDown();
-            }
-        }
+        ExpectedCondition<String> add = input -> {
+            scrollDown();
+            driver.findElement(AppiumBy.xpath("//*[@text='添加成员']")).click();
+            return "success";
+        };
+        wait.until(add);
 
         driver.findElement(AppiumBy.xpath("//android.widget.TextView[@text='手动输入添加']")).click();
 
@@ -141,10 +158,7 @@ public class TestMember {
 
         try {
             screenShot();
-            Thread.sleep(10000);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 

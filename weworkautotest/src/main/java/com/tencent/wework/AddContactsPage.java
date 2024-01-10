@@ -2,6 +2,7 @@ package com.tencent.wework;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 /**
@@ -23,6 +24,11 @@ public class AddContactsPage extends WeWorkApp{
         super(driver);
     }
 
+    /**
+     * 跳转手动添加页面
+     * @return ManuallyAddContactsPage对象
+     */
+    @Step("跳转到手动添加页面")
     public ManuallyAddContactsPage navigateToManuallyAddContactsPage(){
         //点击手动输入添加
         findElement(manuallyAddButton).click();

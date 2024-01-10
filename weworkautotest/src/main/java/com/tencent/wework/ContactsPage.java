@@ -2,6 +2,7 @@ package com.tencent.wework;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
@@ -35,6 +36,7 @@ public class ContactsPage extends WeWorkApp{
      * 跳转搜索页面
      * @return SearchContactsPage对象
      */
+    @Step("跳转搜索页面")
     public SearchContactsPage  navigateToSearchContactsPage(){
         //点击搜索图标
         findElement(searchImage).click();
@@ -45,6 +47,7 @@ public class ContactsPage extends WeWorkApp{
      * 跳转添加页面
      * @return AddContactsPage对象
      */
+    @Step("跳转添加页面")
     public AddContactsPage navigateToAddContactsPage(){
         ExpectedCondition<String> add = input -> {
             //向下滑动
@@ -64,6 +67,7 @@ public class ContactsPage extends WeWorkApp{
      * @param name 搜索用户名称
      * @return List<WebElement> 成员列表
      */
+    @Step("搜索出成员列表")
     public PersonalInformationPage navigateToPersonalInformationPage(String name){
         ExpectedCondition<String> deleteName = input -> {
             //向下滑动

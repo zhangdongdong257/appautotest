@@ -3,6 +3,7 @@ package com.tencent.wework;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -64,6 +65,7 @@ public class WeWorkApp extends BasePage{
     /**
     * 返回到企业微信主页面
     * */
+    @Step("返回到企业微信主页面")
     public void backToMainPage(){
         ExpectedCondition<WebElement> condition = input -> {
             //向上返回一次

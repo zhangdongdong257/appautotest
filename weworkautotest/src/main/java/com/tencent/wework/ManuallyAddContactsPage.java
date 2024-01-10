@@ -2,6 +2,7 @@ package com.tencent.wework;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 /**
@@ -48,6 +49,7 @@ public class ManuallyAddContactsPage extends WeWorkApp{
      * @param name 添加姓名
      * @return String 添加成功
      */
+    @Step("添加成员")
     public String addContact(String name){
         //点击姓名输入框，输入姓名
         findElement(nameInput).sendKeys(name);
@@ -66,11 +68,12 @@ public class ManuallyAddContactsPage extends WeWorkApp{
     }
 
     /**
-     * 添加成功失败
+     * 添加成员失败
      * @param name 添加姓名
      * @param mobileNumber 手机号码
      * @return String 添加失败的toast提示
      */
+    @Step("添加成员失败")
     public String addContactFail(String name, String mobileNumber){
         //点击姓名输入框，输入姓名
         findElement(nameInput).sendKeys(name);

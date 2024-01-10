@@ -2,6 +2,7 @@ package com.tencent.wework;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 /**
@@ -26,6 +27,7 @@ public class PersonalInformationSettingPage extends WeWorkApp{
      * 跳转编辑成员页面
      * @return
      */
+    @Step("跳转编辑成员页面")
     public EditMemberPage navigateToEditMemberPage(){
         //点击编辑成功按钮
         findElement(editButton).click();

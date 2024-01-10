@@ -2,6 +2,7 @@ package com.tencent.wework;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
@@ -21,6 +22,7 @@ public class EditMemberPage extends WeWorkApp{
      * 删除联系人
      * @return String "删除成功"
      */
+    @Step("删除联系人")
     public String deleteContact(){
         ExpectedCondition<String> delete = input -> {
             //向下滑动

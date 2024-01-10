@@ -2,6 +2,7 @@ package com.tencent.wework;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -40,6 +41,7 @@ public class SearchContactsPage extends WeWorkApp{
      * @param name 搜索用户名称
      * @return List<WebElement> 成员列表
      */
+    @Step("搜索出成员列表")
     public List<WebElement> searchContacts(String name){
         findElement(searchButton).sendKeys(name);
         return findElements(memberList);
@@ -50,6 +52,7 @@ public class SearchContactsPage extends WeWorkApp{
      * @param name 搜索用户名称
      * @return String 返回失败提示文案
      */
+    @Step("搜索失败")
     public String searchContactsFail(String name){
         //输入搜索的用户名
         findElement(searchButton).sendKeys(name);

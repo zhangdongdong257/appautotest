@@ -2,6 +2,7 @@ package com.tencent.wework;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 /**
@@ -26,6 +27,7 @@ public class PersonalInformationPage extends WeWorkApp{
      * 跳转个人信息设置页面
      * @return 个人信息设置页面对象
      */
+    @Step("跳转个人信息设置页面")
     public PersonalInformationSettingPage navigateToPersonalInformationSettingPage(){
         //点击详情按钮
         findElement(detailsButton).click();

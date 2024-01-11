@@ -1,7 +1,9 @@
 package com.tencent.wework;
 
+import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;

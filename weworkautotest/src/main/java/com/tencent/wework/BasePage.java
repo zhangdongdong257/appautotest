@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
@@ -69,8 +70,31 @@ public class BasePage {
     public void screentShotAllure(String imageName) throws FileNotFoundException {
         //调用截图方法
         File screentShot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        //获取当前时间并格式化时间
+        String currentTimeStamp = sdf.format(new Date());
+        System.out.println(currentTimeStamp);
         //把截图添加到allure报告中
-        Allure.addAttachment(imageName, "image/png", new FileInputStream(screentShot), ".png");
+        Allure.addAttachment(imageName+currentTimeStamp, "image/png", new FileInputStream(screentShot), ".png");
+    }
+
+    /**
+     * 查找元素并截图
+     * @param by 查找元素方式
+     * @param flag 是否截图
+     * @return 元素
+     */
+    public WebElement findElementAndscreentShot(By by, boolean flag){
+        WebElement element = driver.findElement(by);
+        if(flag){
+            try {
+                log.info("被截图的元素为:{}", by);
+                screentShotAllure(by.toString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return element;
     }
 
     /**
@@ -85,6 +109,8 @@ public class BasePage {
         System.out.println(currentTimeStamp);
         Allure.addAttachment(currentTimeStamp, "image/png",new FileInputStream(screen).toString(), ".jpg");
     }
+
+
 
     /**
     * 屏幕向下滑动
@@ -108,6 +134,10 @@ public class BasePage {
                 .release()
                 .perform();
 
+    }
+
+    public void quit(){
+        driver.quit();
     }
 
 }

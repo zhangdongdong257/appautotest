@@ -106,7 +106,7 @@ public class MemberTest {
     @AfterAll
     @DisplayName("driver关闭")
     public static void tearDown() {
-        mainPage.driver.quit();
+        mainPage.quit();
     }
 
 
